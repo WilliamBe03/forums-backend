@@ -5,7 +5,9 @@ class Comment {
         this.date = new Date();
         this.upvotes = 0
         this.downvotes = 0
-        this.netvotes = this.upvotes - this.downvotes
+    }
+    netScore() {
+        return this.upvotes - this.downvotes
     }
 }
 
