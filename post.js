@@ -6,6 +6,9 @@ class Post {
         this.desc = desc;
         this.date = new Date();
         this.comments = [];
+        this.upvotes = 0
+        this.downvotes = 0
+        this.netvotes = this.upvotes - this.downvotes
     }
     addComment(comment) {
         this.comments.push(comment);

@@ -46,5 +46,22 @@ test("Can create poll and vote", () => {
     expect(globalWarming.title).toBe("Is global warming real?");
     expect(globalWarming.forum.title).toBe("Politics");
     expect(globalWarming.options["Yes"][0]).toEqual(Eddy);
-    //expect(Eddy.vote(Politics, globalWarming.title, "Yes")).toThrow("User already voted!");
+});
+
+test("Can vote on posts and comments", () => {
+    const Kettles = new Forum("Kettles");
+    const Mary = new User("Mary");
+    const John = new User("John");
+    const Tim = new User("Tim");
+
+    const newKettleTit = "Who likes my new kettle?";
+    const newKettleDesc = "It is red!";
+    const newKettle = Mary.createPost(Kettles, newKettleTit, newKettleDesc);
+    John.upvotePost(Kettles, newKettleTit);
+    expect(newKettle.upvotes).toBe(1);
+    const kettleComment = John.createComment(Kettles, newKettleTit, "Lovely and red!");
+    Mary.upvoteComment(Kettles, newKettleTit, "Lovely and red!");
+    expect(kettleComment.upvotes).toBe(1);
+    Tim.downvotePost(Kettles, newKettleTit);
+    expect(newKettle.downvotes).toBe(1);
 })

@@ -6,6 +6,7 @@ const Poll = require("./poll")
 class User {
     constructor(username, admin=false) {
         this.username = username;
+        this.pollVotes = {}
         this.votes = {}
         this.admin = admin
     }
@@ -27,11 +28,45 @@ class User {
     }
     vote(forum, pollTitle, option) {
         const poll = forum.findPost(pollTitle);
-        if (pollTitle in this.votes) {
-            throw "User already voted!"
+        if (pollTitle in this.pollVotes) {
+            throw "User already voted on poll!"
         }
         poll.addVote(option, this);
-        this.votes[pollTitle] = option;
+        this.pollVotes[pollTitle] = option;
+    }
+    upvotePost(forum, title) {
+        const post = forum.findPost(title);
+        if (title in this.votes) {
+            throw "User already voted on post";
+        }
+        post.upvotes++;
+        this.votes[title] = 1;
+    }
+    downvotePost(forum, title) {
+        const post = forum.findPost(title);
+        if (title in this.votes) {
+            throw "User already voted on post";
+        }
+        post.downvotes++;
+        this.votes[title] = 0;
+    }
+    upvoteComment(forum, title, comment) {
+        const post = forum.findPost(title);
+        const comm = post.findComment(comment);
+        if (comment in this.votes) {
+            throw "User already voted on comment";
+        }
+        comm.upvotes++;
+        this.votes[comment] = 1;
+    }
+    downvoteComment(forum, title, comment) {
+        const post = forum.findPost(title);
+        const comm = post.findComment(comment);
+        if (comment in this.votes) {
+            throw "User already voted on comment";
+        }
+        comm.downvotes++;
+        this.votes[comment] = 0;
     }
     deletePost(forum, title, user = this) {
         const post = forum.findPost(title);
@@ -55,4 +90,3 @@ class User {
 }
 
 module.exports = User;
-
