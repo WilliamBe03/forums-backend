@@ -1,7 +1,8 @@
 class Forum {
-    constructor(title) {
+    constructor(title, restricted=false) {
         this.title = title;
         this.posts = [];
+        this.restricted = restricted
     }
     addPost(post) {
         this.posts.push(post);

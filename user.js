@@ -9,16 +9,31 @@ class User {
         this.pollVotes = {}
         this.votes = {}
         this.admin = admin
+        this.posts = {}
+        this.comments = {}
     }
     createPost(forum, title, desc) {
+        if (forum.restricted && this.comments[forum] < 5) {
+            throw "You cannot post in this forum yet!"
+        }
         const newPost = new Post(forum, title, this, desc);
         forum.addPost(newPost);
+        if (!(forum in this.posts)) {
+            this.posts[forum] = 1;
+        } else {
+            this.posts[forum] = (this.posts[forum]+1)
+        }
         return newPost;
     }
     createComment(forum, postTitle, commentContent) {
         const post = forum.findPost(postTitle);
         const newComment = new Comment(this, commentContent);
         post.addComment(newComment);
+        if (!(forum in this.comments)) {
+            this.comments[forum] = 1;
+        } else {
+            this.comments[forum] = (this.comments[forum]+1)
+        }
         return newComment;
     }
     createPoll(forum, title, ...options) {
@@ -75,6 +90,7 @@ class User {
         }
         else if (post.author == user || this.admin == true) {
             forum.removePost(post);
+            this.posts[forum] = this.posts[forum]-1
         }
     }
     deleteComment(forum, title, comment, user = this) {
@@ -85,6 +101,7 @@ class User {
         }
         else if (com.author == user || this.admin == true) {
             post.removeComment(com);
+            this.comments[forum] = this.comments[forum]-1
         }
     }
 }
