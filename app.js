@@ -7,6 +7,11 @@ const Poll = require("./poll")
 const Politics = new Forum("Politics");
 const Sarah = new User("Sar22");
 const Eddy = new User("Edd");
-const globalWarming = Sarah.createPoll(Politics, "Is global warming real?", "Yes", "No");
-Eddy.vote(Politics, globalWarming.title, "Yes");
-console.log()
+const mrAdmin = new User("AdminMan", true)
+const globalWarming = Sarah.createPost(Politics,
+    "Is global warming real?", "Can someone tell me?");
+Eddy.createComment(Politics, "Is global warming real?", "Nah can't be!");
+Eddy.createComment(Politics, "Is global warming real?", "Stupid question!");
+console.log(globalWarming.comments)
+mrAdmin.deleteComment(Politics, "Is global warming real?", "Stupid question!")
+console.log(globalWarming.comments)

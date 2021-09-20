@@ -4,9 +4,10 @@ const Comment = require("./comment");
 const Poll = require("./poll")
 
 class User {
-    constructor(username) {
+    constructor(username, admin=false) {
         this.username = username;
         this.votes = {}
+        this.admin = admin
     }
     createPost(forum, title, desc) {
         const newPost = new Post(forum, title, this, desc);
@@ -31,7 +32,25 @@ class User {
         }
         poll.addVote(option, this);
         this.votes[pollTitle] = option;
-        
+    }
+    deletePost(forum, title, user = this) {
+        const post = forum.findPost(title);
+        if (post.author != user && this.admin == false) {
+            throw "You are not admin!";
+        }
+        else if (post.author == user || this.admin == true) {
+            forum.removePost(post);
+        }
+    }
+    deleteComment(forum, title, comment, user = this) {
+        const post = forum.findPost(title);
+        const com = post.findComment(comment);
+        if (com.author != user && this.admin == false) {
+            throw "You are not admin!";
+        }
+        else if (com.author == user || this.admin == true) {
+            post.removeComment(com);
+        }
     }
 }
 

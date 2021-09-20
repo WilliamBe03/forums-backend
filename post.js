@@ -10,6 +10,20 @@ class Post {
     addComment(comment) {
         this.comments.push(comment);
     }
+    removeComment(comment) {
+        const index = this.comments.indexOf(comment);
+        if (index > -1) {
+            this.comments.splice(index, 1);
+        }
+    }
+    findComment(comment) {
+        for (let com of this.comments) {
+            if (com.comment == comment) {
+                return com;
+            }
+        }
+        throw "Comment doesn't exist!";
+    }
 }
 
 module.exports = Post;
