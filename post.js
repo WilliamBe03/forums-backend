@@ -4,6 +4,7 @@ class Post {
         this.author = author;
         this.forum = forum;
         this.desc = desc;
+        this.date = new Date();
         this.comments = [];
     }
     addComment(comment) {
