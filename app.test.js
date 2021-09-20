@@ -2,6 +2,7 @@ const User = require("./user");
 const Forum = require("./forum");
 const Post = require("./post");
 const Comment = require("./comment");
+const Poll = require("./poll");
 
 test("Can create forum", () => {
     const Gardening = new Forum("Gardening");
@@ -23,7 +24,7 @@ test("Can create post", () => {
     expect(newPost.desc).toBe("I dont know if this is working or not!");
 });
 
-test("Can create comment", () => {
+test("Can create comment on post", () => {
     const Food = new Forum("Food");
     const Jimmy = new User("Jmy32");
     const Polly = new User("PolPols");
@@ -35,3 +36,15 @@ test("Can create comment", () => {
         "Spinach");
     expect(proteins.comments[0]).toEqual(spinach);
 });
+
+test("Can create poll and vote", () => {
+    const Politics = new Forum("Politics");
+    const Sarah = new User("Sar22");
+    const Eddy = new User("Edd");
+    const globalWarming = Sarah.createPoll(Politics, "Is global warming real?", "Yes", "No");
+    Eddy.vote(Politics, globalWarming.title, "Yes");
+    expect(globalWarming.title).toBe("Is global warming real?");
+    expect(globalWarming.forum.title).toBe("Politics");
+    expect(globalWarming.options["Yes"][0]).toEqual(Eddy);
+    //expect(Eddy.vote(Politics, globalWarming.title, "Yes")).toThrow("User already voted!");
+})

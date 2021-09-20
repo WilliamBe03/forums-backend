@@ -5,9 +5,17 @@ class Poll {
         this.title = title;
         this.author = author;
         this.options = {};
-        for (let op in options) {
-            options[op] = [];
+        for (let op of options[0]) {
+            this.options[op] = [];
         }
-
+        this.comments = [];
+    }
+    addComment(comment) {
+        this.comments.push(comment);
+    }
+    addVote(option, user) {
+        this.options[option].push(user);
     }
 }
+
+module.exports = Poll;

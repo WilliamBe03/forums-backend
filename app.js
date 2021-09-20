@@ -2,7 +2,11 @@ const User = require("./user");
 const Forum = require("./forum");
 const Post = require("./post");
 const Comment = require("./comment");
+const Poll = require("./poll")
 
-const Gaming = new Forum("Gaming");
-const Richard = new User("Rich21");
-const newPost = Richard.createPost(Gaming, "Is this working?", "I dont know if this is working or not!");
+const Politics = new Forum("Politics");
+const Sarah = new User("Sar22");
+const Eddy = new User("Edd");
+const globalWarming = Sarah.createPoll(Politics, "Is global warming real?", "Yes", "No");
+Eddy.vote(Politics, globalWarming.title, "Yes");
+console.log()
